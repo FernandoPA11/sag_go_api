@@ -33,7 +33,7 @@ func AddRoutes(router *mux.Router) {
 func migration() {
 	db.DB.AutoMigrate(&resources.User{})
 	db.DB.AutoMigrate(&resources.Employee{})
-	db.DB.AutoMigrate(&resources.DocumentEmployee{})
+	db.DB.AutoMigrate(&resources.EmployeeDocument{})
 	db.DB.AutoMigrate(&resources.Role{})
 	db.DB.AutoMigrate(&resources.Permission{})
 	db.DB.AutoMigrate(&resources.RolePermission{})

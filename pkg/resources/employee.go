@@ -11,10 +11,10 @@ type Employee struct {
 	Address   string             `gorm:"not null"`
 	Curp      string             `gorm:"unique;not null"`
 	Salary    float64            `gorm:"not null" json:"salary"`
-	Documents []DocumentEmployee `json:"documents"`
+	Documents []EmployeeDocument `json:"documents"`
 }
 
-type DocumentEmployee struct {
+type EmployeeDocument struct {
 	gorm.Model
 
 	Name       string `gorm:"unique;not null" json:"name"`

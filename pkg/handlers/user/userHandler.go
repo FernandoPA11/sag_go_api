@@ -13,7 +13,7 @@ import (
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	var users []resources.User
 	db.DB.Find(&users)
-	if users == nil {
+	if len(users) == 0 {
 		utils.Respond(w, http.StatusNotFound, "No users found", nil)
 		return
 	}
