@@ -5,8 +5,12 @@ import "gorm.io/gorm"
 type User struct {
 	gorm.Model
 
-	ID       int
-	Username string
-	Password string
-	Email    string
+	Username   string `gorm:"unique;not null" json:"username"`
+	Password   string `gorm:"not null" json:"password"`
+	Email      string `gorm:"unique;not null" json:"email"`
+	RoleID     int    `gorm:"not null" json:"role_id"`
+	EmployeeID int    `gorm:"not null" json:"employee_id"`
+
+	Role     Role     `gorm:"foreignKey:RoleID;references:ID"`
+	Employee Employee `gorm:"foreignKey:EmployeeID;references:ID"`
 }
