@@ -48,7 +48,7 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	userID := mux.Vars(r)["id"]
 	var user resources.User
-	db.DB.First(&user, userID)
+	db.DB.Unscoped().First(&user, userID)
 	if user.ID == 0 {
 		utils.Respond(w, http.StatusNotFound, "User not found", nil)
 		return
@@ -58,14 +58,18 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	//User validation
 	ValidateUser(w, user)
 
-	db.DB.Save(&user)
+	updatedUser := db.DB.Save(&user)
+	if updatedUser.Error != nil {
+		utils.Respond(w, http.StatusBadRequest, "Error updating user: "+updatedUser.Error.Error(), nil)
+		return
+	}
 	utils.Respond(w, http.StatusOK, "User updated: "+user.Username, user)
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	userID := mux.Vars(r)["id"]
 	var user resources.User
-	db.DB.First(&user, userID)
+	db.DB.Unscoped().First(&user, userID)
 	if user.ID == 0 {
 		utils.Respond(w, http.StatusNotFound, "User not found", nil)
 		return
@@ -96,6 +100,16 @@ func EnableUser(w http.ResponseWriter, r *http.Request) {
 	}
 	db.DB.Model(&user).UpdateColumn("deleted_at", nil)
 	utils.Respond(w, http.StatusOK, "User enabled: "+user.Username, nil)
+}
+
+func GetUsersDisabled(w http.ResponseWriter, r *http.Request) {
+	var users []resources.User
+	db.DB.Unscoped().Find(&users).Where("deleted_at IS NOT NULL")
+	if len(users) == 0 {
+		utils.Respond(w, http.StatusNotFound, "No users found", nil)
+		return
+	}
+	utils.Respond(w, http.StatusOK, "Users found", users)
 }
 
 func ValidateUser(w http.ResponseWriter, user resources.User) {
