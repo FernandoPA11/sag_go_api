@@ -1,0 +1,11 @@
+# internal/config/config.yaml
+
+server:
+  port: 3000
+
+database:
+  host: localhost
+  port: 5433
+  user: fer
+  password: fer123
+  dbname: sag

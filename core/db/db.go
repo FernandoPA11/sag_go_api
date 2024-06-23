@@ -1,13 +1,16 @@
 package db
 
 import (
+	"SAG_GO_API/core/config"
+	"fmt"
 	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var DSN = "host=localhost user=fer password=fer123 dbname=sag port=5433 sslmode=disable"
+var ConfigDB = config.Cfg.Database
+var DSN = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", ConfigDB.Host, ConfigDB.User, ConfigDB.Password, ConfigDB.DBName, ConfigDB.Port)
 var DB *gorm.DB
 
 func DBconnect() {
