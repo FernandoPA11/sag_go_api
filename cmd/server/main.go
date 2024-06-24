@@ -37,6 +37,11 @@ func AddRoutes(router *mux.Router) {
 	routes.RoleRouteHandlers(router)
 	routes.PermissionRouteHandlers(router)
 	routes.EmployeeRouteHandlers(router)
+	routes.RanchRouteHandlers(router)
+	routes.HerdRouteHandlers(router)
+	routes.BreedRouteHandlers(router)
+	routes.CorralRouteHandlers(router)
+	routes.SpecieRouteHandlers(router)
 }
 
 func migration() {
