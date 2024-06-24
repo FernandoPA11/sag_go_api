@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetRanchs(w http.ResponseWriter, r *http.Request) {
+func GetRanches(w http.ResponseWriter, r *http.Request) {
 	var ranchs []resources.Ranch
 	db.DB.Find(&ranchs)
 	if len(ranchs) == 0 {
@@ -72,7 +72,7 @@ func DeleteRanch(w http.ResponseWriter, r *http.Request) {
 	utils.Respond(w, http.StatusOK, "Ranch deleted", nil)
 }
 
-func DiseableRanch(w http.ResponseWriter, r *http.Request) {
+func DisableRanch(w http.ResponseWriter, r *http.Request) {
 	ranchID := mux.Vars(r)["id"]
 	var ranch resources.Ranch
 	db.DB.First(&ranch, ranchID)
@@ -96,7 +96,7 @@ func EnableRanch(w http.ResponseWriter, r *http.Request) {
 	utils.Respond(w, http.StatusOK, "Ranch enabled", nil)
 }
 
-func GetDisabledRanchs(w http.ResponseWriter, r *http.Request) {
+func GetDisabledRanches(w http.ResponseWriter, r *http.Request) {
 	var ranchs []resources.Ranch
 	db.DB.Unscoped().Find(&ranchs)
 	if len(ranchs) == 0 {
